@@ -55,7 +55,8 @@ GL_LIBS = -lGL -lXext -lX11
 # COMPILER CONFIGURATION: Set "CC" to the name of the compiler to use
 # to build the binary benchmarks.  You should also set "$cCompiler" in the
 # Run script to the name of the compiler you want to test.
-CC=gcc
+# CC=gcc
+CC=aarch64-unknown-nto-qnx7.0.0-gcc
 
 # OPTIMISATION SETTINGS:
 # Use gcc option if defined UB_GCC_OPTIONS via "Environment variable" or "Command-line arguments".
@@ -95,9 +96,9 @@ else
     #   - Supported    : x86, x86_64, ARM, AARCH64, etc..
     #   - Not Supported: RISC-V, IBM Power, etc...
     ifneq ($(ARCH),$(filter $(ARCH),ppc64 ppc64le))
-        OPTON += -march=native -mtune=native
+        # OPTON += -march=native -mtune=native
     else
-        OPTON += -mcpu=native -mtune=native
+        # OPTON += -mcpu=native -mtune=native
     endif
   endif
 
