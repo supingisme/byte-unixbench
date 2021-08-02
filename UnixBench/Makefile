@@ -55,7 +55,8 @@ GL_LIBS = -lGL -lXext -lX11
 # COMPILER CONFIGURATION: Set "CC" to the name of the compiler to use
 # to build the binary benchmarks.  You should also set "$cCompiler" in the
 # Run script to the name of the compiler you want to test.
-CC=gcc
+ CC=aarch64-linux-android-gcc
+
 
 # OPTIMISATION SETTINGS:
 # Use gcc option if defined UB_GCC_OPTIONS via "Environment variable" or "Command-line arguments".
@@ -95,9 +96,9 @@ else
     #   - Supported    : x86, x86_64, ARM, AARCH64, etc..
     #   - Not Supported: RISC-V, IBM Power, etc...
     ifneq ($(ARCH),$(filter $(ARCH),ppc64 ppc64le))
-        OPTON += -march=native -mtune=native
+        # OPTON += -march=native -mtune=native
     else
-        OPTON += -mcpu=native -mtune=native
+        # OPTON += -mcpu=native -mtune=native
     endif
   endif
 
@@ -117,7 +118,10 @@ endif
 
 
 ## generic gcc CFLAGS.  -DTIME must be included.
-CFLAGS += -Wall -pedantic $(OPTON) -I $(SRCDIR) -DTIME
+CFLAGS += -Wall -pedantic $(OPTON) -I $(SRCDIR) -DTIME -DHAVE___FPENDING -DTIME  -pie -fPIE \
+		  -I/work/g7/lagvm_p/LINUX/android/out/soong/ndk/sysroot/usr/include -I /work/g7/lagvm_p/LINUX/android/out/soong/ndk/sysroot/usr/include/aarch64-linux-android/ \
+		  --sysroot=/work/g7/lagvm_p/LINUX/android/prebuilts/ndk/r16/platforms/android-24/arch-arm64/ \
+		   -L /work/g7/lagvm_p/LINUX/android/out/soong/ndk/platforms/android-24/arch-arm64/usr/lib
 
 
 ##############################################################################
