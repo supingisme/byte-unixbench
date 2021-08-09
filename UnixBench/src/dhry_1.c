@@ -34,12 +34,9 @@
  ***************************************************************************/
 char SCCSid[] = "@(#) @(#)dhry_1.c:3.4 -- 5/15/91 19:30:21";
 
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sched.h>
-
 #include "dhry.h"
 #include "timeit.c"
 
@@ -167,8 +164,8 @@ char	*argv[];
   printf ("Execution starts, %d runs through Dhrystone\n", Number_Of_Runs);
 #endif /* PRATTLE */
 
-  if (argc != 3) {
-    fprintf(stderr, "Usage: %s duration cpu\n", argv[0]);
+  if (argc != 2) {
+    fprintf(stderr, "Usage: %s duration\n", argv[0]);
     exit(1);
     }
 
@@ -176,23 +173,6 @@ char	*argv[];
   Run_Index = 0;
   wake_me(duration, report);
 
-  cpu_set_t mask;
-  CPU_ZERO(&mask);
-  CPU_SET(atoi(argv[2]), &mask);
-  if (sched_setaffinity(0, sizeof(mask), &mask) == -1)
-    printf("Set CPU affinity failue\n");
-  else
-    printf("%s run on cpu %d\n", argv[0], atoi(argv[2]));
-
-  struct sched_param param;
-  int maxpri = sched_get_priority_max(SCHED_FIFO);
-  if(maxpri != -1) {
-    param.sched_priority = maxpri;
-    if (sched_setscheduler(getpid(), SCHED_FIFO, &param) <0)
-      printf("Set SCHED_FIFO failue\n");
-    else
-      printf("Set SCHED_FIFO %d success\n", maxpri);
-  }
   /***************/
   /* Start timer */
   /***************/
